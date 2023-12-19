@@ -5,8 +5,8 @@ Gem::Specification.new do |s|
   s.add_development_dependency('rspec', '~> 3.5.0')
   s.add_development_dependency('webmock', '>= 2.0.0')
   s.add_runtime_dependency('faraday', '>= 0.10')
-  s.add_runtime_dependency('faraday_middleware', '>= 0.10')
   s.add_runtime_dependency('multi_json', '>= 1.0.3')
+  s.add_runtime_dependency('activesupport', '>= 6.1.7')
   s.authors = ["Marcus Vorwaller"]
   s.description = %q{A Ruby wrapper for the AvaTax REST and Search APIs}
   s.post_install_message =<<eos
@@ -15,12 +15,12 @@ Gem::Specification.new do |s|
 AvaTax REST API
 ------------------------------
 Our developer site documents the AvaTax REST API.
-(http://developer.avatax.com).
+(https://developer.avalara.com).
 Blog
 ----------------------------
 The Developer Blog is a great place to learn more about the API and AvaTax integrations
 Subscribe to the RSS feed be notified of new posts:
-(http://developer.avatax.com/blog).
+(https://developer.avalara.com/blogs).
 
 ********************************************************************************
 eos

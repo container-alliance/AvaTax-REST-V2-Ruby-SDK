@@ -19,6 +19,7 @@ module AvaTax
       #
       #  * Lines
       #  * Details (implies lines)
+      # * AccountPayableSalesTaxDetails (implies lines - only for Account Payable transaction)
       #  * Summary (implies details)
       #  * Addresses
       # * SummaryOnly (omit lines and details - reduces API response size)
@@ -28,13 +29,14 @@ module AvaTax
       #
       # ### Security Policies
       #
-      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, CompanyAdmin, CSPTester, SSTAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
+      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, BatchServiceAdmin, CompanyAdmin, CSPTester, SSTAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
       # * This API depends on the following active services:*Required* (all): AvaTaxPro, BasicReturns.
+      # Swagger Name: AvaTaxClient	  
       # @param include [String] Specifies objects to include in the response after transaction is created
       # @param model [Object] information about the transaction and lines to be added
       # @return [Object]
       def add_lines(model, options={})        path = "/api/v2/companies/transactions/lines/add"
-        post(path, model, options)      end
+        post(path, model, options, AvaTax::VERSION)      end
 
       # Correct a previously created transaction
       #
@@ -54,6 +56,7 @@ module AvaTax
       #
       # * Lines
       # * Details (implies lines)
+      # * AccountPayableSalesTaxDetails (implies lines - only for Account Payable transaction)
       # * Summary (implies details)
       # * Addresses
       # * SummaryOnly (omit lines and details - reduces API response size)
@@ -70,8 +73,9 @@ module AvaTax
       #
       # ### Security Policies
       #
-      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, CompanyAdmin, CSPTester, SSTAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
+      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, BatchServiceAdmin, CompanyAdmin, CSPTester, SSTAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
       # * This API depends on the following active services:*Required* (all): AvaTaxPro, BasicReturns.
+      # Swagger Name: AvaTaxClient	  
       # @param companyCode [String] The company code of the company that recorded this transaction
       # @param transactionCode [String] The transaction code to adjust
       # @param documentType [String] (Optional): The document type of the transaction to adjust. (See DocumentType::* for a list of allowable values)
@@ -79,7 +83,7 @@ module AvaTax
       # @param model [Object] The adjustment you wish to make
       # @return [Object]
       def adjust_transaction(companyCode, transactionCode, model, options={})        path = "/api/v2/companies/#{companyCode}/transactions/#{transactionCode}/adjust"
-        post(path, model, options)      end
+        post(path, model, options, AvaTax::VERSION)      end
 
       # Get audit information about a transaction
       #
@@ -109,13 +113,14 @@ module AvaTax
       #
       # ### Security Policies
       #
-      # * This API requires one of the following user roles: AccountAdmin, AccountUser, CompanyAdmin, CompanyUser, CSPAdmin, CSPTester, ProStoresOperator, SiteAdmin, SSTAdmin, SystemAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
+      # * This API requires one of the following user roles: AccountAdmin, AccountUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPAdmin, CSPTester, ProStoresOperator, SiteAdmin, SSTAdmin, SystemAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
       # * This API depends on the following active services:*Required* (all): AvaTaxPro, BasicReturns.
+      # Swagger Name: AvaTaxClient	  
       # @param companyCode [String] The code identifying the company that owns this transaction
       # @param transactionCode [String] The code identifying the transaction
       # @return [Object]
       def audit_transaction(companyCode, transactionCode)        path = "/api/v2/companies/#{companyCode}/transactions/#{transactionCode}/audit"
-        get(path)      end
+        get(path, {}, AvaTax::VERSION)      end
 
       # Get audit information about a transaction
       #
@@ -145,14 +150,15 @@ module AvaTax
       #
       # ### Security Policies
       #
-      # * This API requires one of the following user roles: AccountAdmin, AccountUser, CompanyAdmin, CompanyUser, CSPAdmin, CSPTester, ProStoresOperator, SiteAdmin, SSTAdmin, SystemAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
+      # * This API requires one of the following user roles: AccountAdmin, AccountUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPAdmin, CSPTester, ProStoresOperator, SiteAdmin, SSTAdmin, SystemAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
       # * This API depends on the following active services:*Required* (all): AvaTaxPro, BasicReturns.
+      # Swagger Name: AvaTaxClient	  
       # @param companyCode [String] The code identifying the company that owns this transaction
       # @param transactionCode [String] The code identifying the transaction
       # @param documentType [String] The document type of the original transaction (See DocumentType::* for a list of allowable values)
       # @return [Object]
       def audit_transaction_with_type(companyCode, transactionCode, documentType)        path = "/api/v2/companies/#{companyCode}/transactions/#{transactionCode}/types/#{documentType}/audit"
-        get(path)      end
+        get(path, {}, AvaTax::VERSION)      end
 
       # Lock a set of documents
       #
@@ -168,10 +174,11 @@ module AvaTax
       #
       # * This API requires the user role Compliance Root User.
       # * This API depends on the following active services:*Returns* (at least one of): Mrs, MRSComplianceManager, AvaTaxCsp.*Firm Managed* (for accounts managed by a firm): ARA, ARAManaged.
+      # Swagger Name: AvaTaxClient	  
       # @param model [Object] bulk lock request
       # @return [Object]
       def bulk_lock_transaction(model)        path = "/api/v2/transactions/lock"
-        post(path, model)      end
+        post(path, model, {}, AvaTax::VERSION)      end
 
       # Change a transaction's code
       #
@@ -191,6 +198,7 @@ module AvaTax
       #
       # * Lines
       # * Details (implies lines)
+      # * AccountPayableSalesTaxDetails (implies lines - only for Account Payable transaction)
       # * Summary (implies details)
       # * Addresses
       # * SummaryOnly (omit lines and details - reduces API response size)
@@ -207,8 +215,9 @@ module AvaTax
       #
       # ### Security Policies
       #
-      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, CompanyAdmin, CompanyUser, CSPTester, ProStoresOperator, SSTAdmin, TechnicalSupportAdmin.
+      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPTester, ProStoresOperator, SSTAdmin, TechnicalSupportAdmin.
       # * This API depends on the following active services:*Required* (all): AvaTaxPro, BasicReturns.
+      # Swagger Name: AvaTaxClient	  
       # @param companyCode [String] The company code of the company that recorded this transaction
       # @param transactionCode [String] The transaction code to change
       # @param documentType [String] (Optional): The document type of the transaction to change document code. If not provided, the default is SalesInvoice. (See DocumentType::* for a list of allowable values)
@@ -216,7 +225,7 @@ module AvaTax
       # @param model [Object] The code change request you wish to execute
       # @return [Object]
       def change_transaction_code(companyCode, transactionCode, model, options={})        path = "/api/v2/companies/#{companyCode}/transactions/#{transactionCode}/changecode"
-        post(path, model, options)      end
+        post(path, model, options, AvaTax::VERSION)      end
 
       # Commit a transaction for reporting
       #
@@ -235,6 +244,7 @@ module AvaTax
       #
       # * Lines
       # * Details (implies lines)
+      # * AccountPayableSalesTaxDetails (implies lines - only for Account Payable transaction)
       # * Summary (implies details)
       # * Addresses
       # * SummaryOnly (omit lines and details - reduces API response size)
@@ -251,7 +261,8 @@ module AvaTax
       #
       # ### Security Policies
       #
-      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, CompanyAdmin, CompanyUser, CSPTester, ProStoresOperator, SSTAdmin, TechnicalSupportAdmin.
+      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPTester, ProStoresOperator, SSTAdmin, TechnicalSupportAdmin.
+      # Swagger Name: AvaTaxClient	  
       # @param companyCode [String] The company code of the company that recorded this transaction
       # @param transactionCode [String] The transaction code to commit
       # @param documentType [String] (Optional): The document type of the transaction to commit. If not provided, the default is SalesInvoice. (See DocumentType::* for a list of allowable values)
@@ -259,7 +270,7 @@ module AvaTax
       # @param model [Object] The commit request you wish to execute
       # @return [Object]
       def commit_transaction(companyCode, transactionCode, model, options={})        path = "/api/v2/companies/#{companyCode}/transactions/#{transactionCode}/commit"
-        post(path, model, options)      end
+        post(path, model, options, AvaTax::VERSION)      end
 
       # Create or adjust a transaction
       #
@@ -276,6 +287,8 @@ module AvaTax
       #
       # To generate a refund for a transaction, use the `RefundTransaction` API.
       #
+      # An address is required for calculation. If no address is provided at the line level, the document level address will be used.
+      #
       # If you don't specify the field `type` in your request, you will get an estimate of type `SalesOrder`, which will not be recorded in the database.
       #
       # A transaction represents a unique potentially taxable action that your company has recorded, and transactions include actions like
@@ -284,6 +297,7 @@ module AvaTax
       #
       # * Lines
       # * Details (implies lines)
+      # * AccountPayableSalesTaxDetails (implies lines - only for Account Payable transaction)
       # * Summary (implies details)
       # * Addresses
       # * SummaryOnly (omit lines and details - reduces API response size)
@@ -299,13 +313,14 @@ module AvaTax
       #
       # ### Security Policies
       #
-      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, CompanyAdmin, CompanyUser, CSPTester, SSTAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
+      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPTester, SSTAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
       # * This API depends on the following active services:*Required* (all): AvaTaxPro, BasicReturns.
+      # Swagger Name: AvaTaxClient	  
       # @param include [String] Specifies objects to include in the response after transaction is created
       # @param model [Object] The transaction you wish to create or adjust
       # @return [Object]
       def create_or_adjust_transaction(model, options={})        path = "/api/v2/transactions/createoradjust"
-        post(path, model, options)      end
+        post(path, model, options, AvaTax::VERSION)      end
 
       # Create a new transaction
       #
@@ -324,6 +339,8 @@ module AvaTax
       #
       # To generate a refund for a transaction, use the `RefundTransaction` API.
       #
+      # An address is required for calculation. If no address is provided at the line level, the document level address will be used.
+      #
       # The field `type` identifies the kind of transaction - for example, a sale, purchase, or refund. If you do not specify
       # a `type` value, you will receive an estimate of type `SalesOrder`, which will not be recorded.
       #
@@ -336,6 +353,7 @@ module AvaTax
       #
       # * Lines
       # * Details (implies lines)
+      # * AccountPayableSalesTaxDetails (implies lines - only for Account Payable transaction)
       # * Summary (implies details)
       # * Addresses
       # * SummaryOnly (omit lines and details - reduces API response size)
@@ -352,13 +370,14 @@ module AvaTax
       #
       # ### Security Policies
       #
-      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, CompanyAdmin, CompanyUser, CSPTester, SSTAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
+      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPTester, SSTAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
       # * This API depends on the following active services:*Required* (all): AvaTaxPro, BasicReturns.
+      # Swagger Name: AvaTaxClient	  
       # @param include [String] Specifies objects to include in the response after transaction is created
       # @param model [Object] The transaction you wish to create
       # @return [Object]
       def create_transaction(model, options={})        path = "/api/v2/transactions/create"
-        post(path, model, options)      end
+        post(path, model, options, AvaTax::VERSION)      end
 
       # Remove lines from an existing unlocked transaction
       #
@@ -373,6 +392,7 @@ module AvaTax
       #
       #  * Lines
       #  * Details (implies lines)
+      # * AccountPayableSalesTaxDetails (implies lines - only for Account Payable transaction)
       #  * Summary (implies details)
       #  * Addresses
       # * SummaryOnly (omit lines and details - reduces API response size)
@@ -382,13 +402,26 @@ module AvaTax
       #
       # ### Security Policies
       #
-      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, CompanyAdmin, CSPTester, SSTAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
+      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, BatchServiceAdmin, CompanyAdmin, CSPTester, SSTAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
       # * This API depends on the following active services:*Required* (all): AvaTaxPro, BasicReturns.
+      # Swagger Name: AvaTaxClient	  
       # @param include [String] Specifies objects to include in the response after transaction is created
       # @param model [Object] information about the transaction and lines to be removed
       # @return [Object]
       def delete_lines(model, options={})        path = "/api/v2/companies/transactions/lines/delete"
-        post(path, model, options)      end
+        post(path, model, options, AvaTax::VERSION)      end
+
+      # Fetches the Variance data generated for all the transactions done by Company.
+      #
+      # ### Security Policies
+      #
+      # * This API requires one of the following user roles: AccountAdmin, AccountUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPAdmin, CSPTester, ProStoresOperator, SiteAdmin, SSTAdmin, SystemAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
+      # * This API depends on the following active services:*Required* (all): AvaTaxPro, BasicReturns.
+      # Swagger Name: AvaTaxClient	  
+      # @param companyCode [String] 
+      # @return [Object]
+      def get_all_variance_report_by_company_code(companyCode)        path = "/api/v2/companies/#{companyCode}/AllVariance"
+        get(path, {}, AvaTax::VERSION)      end
 
       # Retrieve a single transaction by code
       #
@@ -406,6 +439,7 @@ module AvaTax
       #
       # * Lines
       # * Details (implies lines)
+      # * AccountPayableSalesTaxDetails (implies lines - only for Account Payable transaction)
       # * Summary (implies details)
       # * Addresses
       # * SummaryOnly (omit lines and details - reduces API response size)
@@ -421,15 +455,16 @@ module AvaTax
       #
       # ### Security Policies
       #
-      # * This API requires one of the following user roles: AccountAdmin, AccountUser, CompanyAdmin, CompanyUser, CSPAdmin, CSPTester, ProStoresOperator, SiteAdmin, SSTAdmin, SystemAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
+      # * This API requires one of the following user roles: AccountAdmin, AccountUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPAdmin, CSPTester, ProStoresOperator, SiteAdmin, SSTAdmin, SystemAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
       # * This API depends on the following active services:*Required* (all): AvaTaxPro, BasicReturns.
+      # Swagger Name: AvaTaxClient	  
       # @param companyCode [String] The company code of the company that recorded this transaction
       # @param transactionCode [String] The transaction code to retrieve
       # @param documentType [String] (Optional): The document type of the transaction to retrieve (See DocumentType::* for a list of allowable values)
       # @param include [String] Specifies objects to include in this fetch call
       # @return [Object]
       def get_transaction_by_code(companyCode, transactionCode, options={})        path = "/api/v2/companies/#{companyCode}/transactions/#{transactionCode}"
-        get(path, options)      end
+        get(path, options, AvaTax::VERSION)      end
 
       # Retrieve a single transaction by code
       #
@@ -445,22 +480,22 @@ module AvaTax
       #
       # ### Security Policies
       #
-      # * This API requires one of the following user roles: AccountAdmin, AccountUser, CompanyAdmin, CompanyUser, CSPAdmin, CSPTester, ProStoresOperator, SiteAdmin, SSTAdmin, SystemAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
+      # * This API requires one of the following user roles: AccountAdmin, AccountUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPAdmin, CSPTester, ProStoresOperator, SiteAdmin, SSTAdmin, SystemAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
       # * This API depends on the following active services:*Required* (all): AvaTaxPro, BasicReturns.
+      # Swagger Name: AvaTaxClient	  
       # @param companyCode [String] The company code of the company that recorded this transaction
       # @param transactionCode [String] The transaction code to retrieve
       # @param documentType [String] The transaction type to retrieve (See DocumentType::* for a list of allowable values)
       # @param include [String] Specifies objects to include in this fetch call
       # @return [Object]
       def get_transaction_by_code_and_type(companyCode, transactionCode, documentType, options={})        path = "/api/v2/companies/#{companyCode}/transactions/#{transactionCode}/types/#{documentType}"
-        get(path, options)      end
+        get(path, options, AvaTax::VERSION)      end
 
       # Retrieve a single transaction by ID
       #
       # Get the unique transaction identified by this URL.
       #
-      # This endpoint retrieves the exact transaction identified by this ID number even if that transaction was later adjusted
-      # by using the `AdjustTransaction` endpoint.
+      # This endpoint retrieves the exact transaction identified by this ID number, as long as it is the most version of the transaction.
       #
       # A transaction represents a unique potentially taxable action that your company has recorded, and transactions include actions like
       # sales, purchases, inventory transfer, and returns (also called refunds).
@@ -469,6 +504,7 @@ module AvaTax
       #
       # * Lines
       # * Details (implies lines)
+      # * AccountPayableSalesTaxDetails (implies lines - only for Account Payable transaction)
       # * Summary (implies details)
       # * Addresses
       # * SummaryOnly (omit lines and details - reduces API response size)
@@ -477,13 +513,27 @@ module AvaTax
       #
       # ### Security Policies
       #
-      # * This API requires one of the following user roles: AccountAdmin, AccountUser, CompanyAdmin, CompanyUser, CSPAdmin, CSPTester, ProStoresOperator, SiteAdmin, SSTAdmin, SystemAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
+      # * This API requires one of the following user roles: AccountAdmin, AccountUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPAdmin, CSPTester, ProStoresOperator, SiteAdmin, SSTAdmin, SystemAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
       # * This API depends on the following active services:*Required* (all): AvaTaxPro, BasicReturns.
+      # Swagger Name: AvaTaxClient	  
       # @param id [Integer] The unique ID number of the transaction to retrieve
       # @param include [String] Specifies objects to include in this fetch call
       # @return [Object]
       def get_transaction_by_id(id, options={})        path = "/api/v2/transactions/#{id}"
-        get(path, options)      end
+        get(path, options, AvaTax::VERSION)      end
+
+      # Fetches the Variance data generated for particular Company by transaction ID
+      #
+      # ### Security Policies
+      #
+      # * This API requires one of the following user roles: AccountAdmin, AccountUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPAdmin, CSPTester, ProStoresOperator, SiteAdmin, SSTAdmin, SystemAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
+      # * This API depends on the following active services:*Required* (all): AvaTaxPro, BasicReturns.
+      # Swagger Name: AvaTaxClient	  
+      # @param companyCode [String] 
+      # @param transactionId [String] 
+      # @return [Object]
+      def get_variance_report_by_company_code_by_transaction_id(companyCode, transactionId)        path = "/api/v2/companies/#{companyCode}/transactions/#{transactionId}/variance"
+        get(path, {}, AvaTax::VERSION)      end
 
       # Retrieve all transactions
       #
@@ -504,6 +554,7 @@ module AvaTax
       #
       # * Lines
       # * Details (implies lines)
+      # * AccountPayableSalesTaxDetails (implies lines - only for Account Payable transaction)
       # * Summary (implies details)
       # * Addresses
       # * SummaryOnly (omit lines and details - reduces API response size)
@@ -519,8 +570,9 @@ module AvaTax
       #
       # ### Security Policies
       #
-      # * This API requires one of the following user roles: AccountAdmin, AccountUser, CompanyAdmin, CompanyUser, CSPAdmin, CSPTester, ProStoresOperator, SiteAdmin, SSTAdmin, SystemAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
+      # * This API requires one of the following user roles: AccountAdmin, AccountUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPAdmin, CSPTester, ProStoresOperator, SiteAdmin, SSTAdmin, SystemAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
       # * This API depends on the following active services:*Required* (all): AvaTaxPro, BasicReturns.
+      # Swagger Name: AvaTaxClient	  
       # @param companyCode [String] The company code of the company that recorded this transaction
       # @param dataSourceId [Integer] Optionally filter transactions to those from a specific data source.
       # @param include [String] Specifies objects to include in this fetch call
@@ -530,7 +582,7 @@ module AvaTax
       # @param orderBy [String] A comma separated list of sort statements in the format `(fieldname) [ASC|DESC]`, for example `id ASC`.
       # @return [FetchResult]
       def list_transactions_by_company(companyCode, options={})        path = "/api/v2/companies/#{companyCode}/transactions"
-        get(path, options)      end
+        get(path, options, AvaTax::VERSION)      end
 
       # Lock a single transaction
       #
@@ -539,7 +591,7 @@ module AvaTax
       # This API is mainly used for connector developers to simulate what happens when the Returns product locks a document.
       # After this API call succeeds, the document will be locked and can't be voided or adjusted.
       #
-      # This API is only available to customers in Sandbox with AvaTaxPro subscription. On production servers, this API is available by invitation only.
+      # On Sandbox, this API is only available to customers who have both an AvaTaxPro and a Managed Returns subscription. On Production, this API is only available internally for the Avalara Returns team.
       #
       # If you have more than one document with the same `code`, specify the `documentType` parameter to choose between them.
       #
@@ -550,6 +602,7 @@ module AvaTax
       #
       # * Lines
       # * Details (implies lines)
+      # * AccountPayableSalesTaxDetails (implies lines - only for Account Payable transaction)
       # * Summary (implies details)
       # * Addresses
       # * SummaryOnly (omit lines and details - reduces API response size)
@@ -566,8 +619,9 @@ module AvaTax
       #
       # ### Security Policies
       #
-      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, CompanyAdmin, CompanyUser, CSPTester, SSTAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
+      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPTester, SSTAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
       # * This API depends on the following active services:*Returns* (at least one of): Mrs, MRSComplianceManager, AvaTaxCsp.*Firm Managed* (for accounts managed by a firm): ARA, ARAManaged.
+      # Swagger Name: AvaTaxClient	  
       # @param companyCode [String] The company code of the company that recorded this transaction
       # @param transactionCode [String] The transaction code to lock
       # @param documentType [String] (Optional): The document type of the transaction to lock. If not provided, the default is SalesInvoice. (See DocumentType::* for a list of allowable values)
@@ -575,7 +629,7 @@ module AvaTax
       # @param model [Object] The lock request you wish to execute
       # @return [Object]
       def lock_transaction(companyCode, transactionCode, model, options={})        path = "/api/v2/companies/#{companyCode}/transactions/#{transactionCode}/lock"
-        post(path, model, options)      end
+        post(path, model, options, AvaTax::VERSION)      end
 
       # Create a refund for a transaction
       #
@@ -604,6 +658,7 @@ module AvaTax
       #
       # * Lines
       # * Details (implies lines)
+      # * AccountPayableSalesTaxDetails (implies lines - only for Account Payable transaction)
       # * Summary (implies details)
       # * Addresses
       # * SummaryOnly (omit lines and details - reduces API response size)
@@ -621,8 +676,9 @@ module AvaTax
       #
       # ### Security Policies
       #
-      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, CompanyAdmin, CompanyUser, CSPTester, SSTAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
+      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPTester, SSTAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
       # * This API depends on the following active services:*Required* (all): AvaTaxPro, BasicReturns.
+      # Swagger Name: AvaTaxClient	  
       # @param companyCode [String] The code of the company that made the original sale
       # @param transactionCode [String] The transaction code of the original sale
       # @param include [String] Specifies objects to include in the response after transaction is created
@@ -631,7 +687,7 @@ module AvaTax
       # @param model [Object] Information about the refund to create
       # @return [Object]
       def refund_transaction(companyCode, transactionCode, model, options={})        path = "/api/v2/companies/#{companyCode}/transactions/#{transactionCode}/refund"
-        post(path, model, options)      end
+        post(path, model, options, AvaTax::VERSION)      end
 
       # Perform multiple actions on a transaction
       #
@@ -650,6 +706,7 @@ module AvaTax
       #
       # * Lines
       # * Details (implies lines)
+      # * AccountPayableSalesTaxDetails (implies lines - only for Account Payable transaction)
       # * Summary (implies details)
       # * Addresses
       # * SummaryOnly (omit lines and details - reduces API response size)
@@ -666,7 +723,8 @@ module AvaTax
       #
       # ### Security Policies
       #
-      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, CompanyAdmin, CompanyUser, CSPTester, ProStoresOperator, SSTAdmin, TechnicalSupportAdmin.
+      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPTester, ProStoresOperator, SSTAdmin, TechnicalSupportAdmin.
+      # Swagger Name: AvaTaxClient	  
       # @param companyCode [String] The company code of the company that recorded this transaction
       # @param transactionCode [String] The transaction code to settle
       # @param documentType [String] (Optional): The document type of the transaction to settle. If not provided, the default is SalesInvoice. (See DocumentType::* for a list of allowable values)
@@ -674,7 +732,7 @@ module AvaTax
       # @param model [Object] The data from an external system to reconcile against AvaTax
       # @return [Object]
       def settle_transaction(companyCode, transactionCode, model, options={})        path = "/api/v2/companies/#{companyCode}/transactions/#{transactionCode}/settle"
-        post(path, model, options)      end
+        post(path, model, options, AvaTax::VERSION)      end
 
       # Uncommit a transaction for reporting
       #
@@ -687,6 +745,7 @@ module AvaTax
       #
       # * Lines
       # * Details (implies lines)
+      # * AccountPayableSalesTaxDetails (implies lines - only for Account Payable transaction)
       # * Summary (implies details)
       # * Addresses
       # * SummaryOnly (omit lines and details - reduces API response size)
@@ -703,15 +762,16 @@ module AvaTax
       #
       # ### Security Policies
       #
-      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, CompanyAdmin, CSPTester, SSTAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
+      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, BatchServiceAdmin, CompanyAdmin, CSPTester, SSTAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
       # * This API depends on the following active services:*Required* (all): AvaTaxPro, BasicReturns.
+      # Swagger Name: AvaTaxClient	  
       # @param companyCode [String] The company code of the company that recorded this transaction
       # @param transactionCode [String] The transaction code to Uncommit
       # @param documentType [String] (Optional): The document type of the transaction to Uncommit. If not provided, the default is SalesInvoice. (See DocumentType::* for a list of allowable values)
       # @param include [String] Specifies objects to include in this fetch call
       # @return [Object]
       def uncommit_transaction(companyCode, transactionCode, options={})        path = "/api/v2/companies/#{companyCode}/transactions/#{transactionCode}/uncommit"
-        post(path, options)      end
+        post(path, {}, options, AvaTax::VERSION)      end
 
       # Unvoids a transaction
       #
@@ -721,6 +781,7 @@ module AvaTax
       #
       # * Lines
       # * Details (implies lines)
+      # * AccountPayableSalesTaxDetails (implies lines - only for Account Payable transaction)
       # * Summary (implies details)
       # * Addresses
       # * SummaryOnly (omit lines and details - reduces API response size)
@@ -737,15 +798,29 @@ module AvaTax
       #
       # ### Security Policies
       #
-      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, CompanyAdmin, CSPTester, SSTAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
+      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, BatchServiceAdmin, CompanyAdmin, CSPTester, SSTAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
       # * This API depends on the following active services:*Required* (all): AvaTaxPro, BasicReturns.
+      # Swagger Name: AvaTaxClient	  
       # @param companyCode [String] The company code of the company that recorded this transaction
       # @param transactionCode [String] The transaction code to commit
       # @param documentType [String] (Optional): The document type of the transaction to commit. If not provided, the default is SalesInvoice. (See DocumentType::* for a list of allowable values)
       # @param include [String] Specifies objects to include in this fetch call
       # @return [Object]
       def unvoid_transaction(companyCode, transactionCode, options={})        path = "/api/v2/companies/#{companyCode}/transactions/#{transactionCode}/unvoid"
-        post(path, options)      end
+        post(path, {}, options, AvaTax::VERSION)      end
+
+      # Generates the Variance report which will capture the difference between "Tax Calculated by Avalara" Vs "Actual Tax" paid at custom clearance at line / header level.
+      #
+      # ### Security Policies
+      #
+      # * This API requires one of the following user roles: AccountAdmin, AccountUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPAdmin, CSPTester, ProStoresOperator, SiteAdmin, SSTAdmin, SystemAdmin, TechnicalSupportAdmin, TechnicalSupportUser.
+      # * This API depends on the following active services:*Required* (all): AvaTaxPro, BasicReturns.
+      # Swagger Name: AvaTaxClient	  
+      # @param companyCode [String] 
+      # @param model [VarianceRequestModel[]] 
+      # @return [Object]
+      def variance_report(companyCode, model)        path = "/api/v2/companies/#{companyCode}/variance"
+        post(path, model, {}, AvaTax::VERSION)      end
 
       # Verify a transaction
       #
@@ -762,6 +837,7 @@ module AvaTax
       #
       # * Lines
       # * Details (implies lines)
+      # * AccountPayableSalesTaxDetails (implies lines - only for Account Payable transaction)
       # * Summary (implies details)
       # * Addresses
       # * SummaryOnly (omit lines and details - reduces API response size)
@@ -778,8 +854,9 @@ module AvaTax
       #
       # ### Security Policies
       #
-      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, CompanyAdmin, CompanyUser, CSPTester, ProStoresOperator, SSTAdmin, TechnicalSupportAdmin.
+      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, AccountUser, BatchServiceAdmin, CompanyAdmin, CompanyUser, CSPTester, ProStoresOperator, SSTAdmin, TechnicalSupportAdmin.
       # * This API depends on the following active services:*Required* (all): AvaTaxPro, BasicReturns.
+      # Swagger Name: AvaTaxClient	  
       # @param companyCode [String] The company code of the company that recorded this transaction
       # @param transactionCode [String] The transaction code to settle
       # @param documentType [String] (Optional): The document type of the transaction to verify. If not provided, the default is SalesInvoice. (See DocumentType::* for a list of allowable values)
@@ -787,7 +864,7 @@ module AvaTax
       # @param model [Object] The data from an external system to reconcile against AvaTax
       # @return [Object]
       def verify_transaction(companyCode, transactionCode, model, options={})        path = "/api/v2/companies/#{companyCode}/transactions/#{transactionCode}/verify"
-        post(path, model, options)      end
+        post(path, model, options, AvaTax::VERSION)      end
 
       # Void a transaction
       #
@@ -806,6 +883,7 @@ module AvaTax
       #
       # * Lines
       # * Details (implies lines)
+      # * AccountPayableSalesTaxDetails (implies lines - only for Account Payable transaction)
       # * Summary (implies details)
       # * Addresses
       # * SummaryOnly (omit lines and details - reduces API response size)
@@ -822,8 +900,9 @@ module AvaTax
       #
       # ### Security Policies
       #
-      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, CompanyAdmin, CSPTester, ProStoresOperator, SSTAdmin, TechnicalSupportAdmin.
+      # * This API requires one of the following user roles: AccountAdmin, AccountOperator, BatchServiceAdmin, CompanyAdmin, CSPTester, ProStoresOperator, SSTAdmin, TechnicalSupportAdmin.
       # * This API depends on the following active services:*Required* (all): AvaTaxPro, BasicReturns.
+      # Swagger Name: AvaTaxClient	  
       # @param companyCode [String] The company code of the company that recorded this transaction
       # @param transactionCode [String] The transaction code to void
       # @param documentType [String] (Optional): The document type of the transaction to void. If not provided, the default is SalesInvoice. (See DocumentType::* for a list of allowable values)
@@ -831,7 +910,7 @@ module AvaTax
       # @param model [Object] The void request you wish to execute. To void a transaction the code must be set to 'DocVoided'
       # @return [Object]
       def void_transaction(companyCode, transactionCode, model, options={})        path = "/api/v2/companies/#{companyCode}/transactions/#{transactionCode}/void"
-        post(path, model, options)      end
+        post(path, model, options, AvaTax::VERSION)      end
     end
   end
 end
